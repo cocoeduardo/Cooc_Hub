@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-black text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoEduardo - Tools Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: IBM Plex Mono (La misma que usas) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"IBM Plex Mono"', 'monospace'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                            900: '#7c2d12',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.8)',
+                        'glass-glow': '0 8px 32px 0 rgba(249, 115, 22, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos idénticos a tu proyecto Server_Quick_comands */
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(249, 115, 22, 0.1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.05);
+        }
+
+        /* Ocultar scrollbar estéticamente */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.9); }
+        ::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(249, 115, 22, 0.4); }
+
+        /* Animación suave de entrada */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="font-mono h-full flex flex-col justify-between overflow-x-hidden relative selection:bg-orange-500/30 selection:text-orange-200">
+
+    <!-- Fondo ambiental (La elipse naranja) -->
+    <div class="absolute top-[10%] left-[20%] w-[60%] h-[40%] bg-orange-950/10 rounded-full blur-[180px] pointer-events-none"></div>
+
+    <main class="w-full max-w-5xl mx-auto px-4 py-8 md:py-12 z-10 flex-grow flex flex-col justify-center">
+        
+        <!-- Header del Hub -->
+        <header class="text-center mb-10 fade-in">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/5 mb-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                <span class="text-[10px] uppercase tracking-widest text-orange-400">Tools & Utilities Hub</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-light tracking-tight text-white mb-2">
+                COCO <span class="font-bold text-orange-500">TOOLS</span>
+            </h1>
+            <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+                Repositorio central de aplicaciones web, utilidades y herramientas generadas por CocoEduardo.
+            </p>
+        </header>
+
+        <!-- Contenedor de Herramientas (Grid) -->
+        <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+            <!-- Las herramientas se generarán aquí con JS -->
+        </div>
+
+    </main>
+
+    <!-- Vista de la Aplicación (Iframe) - Oculta por defecto -->
+    <div id="app-view" class="fixed inset-0 bg-black z-50 hidden flex-col">
+        <!-- Barra superior estilo terminal -->
+        <div class="h-12 border-b border-orange-500/20 flex items-center justify-between px-4 bg-neutral-950/80 backdrop-blur-md">
+            <div class="flex items-center gap-3">
+                <button onclick="closeApp()" class="text-xs uppercase tracking-wider text-slate-400 hover:text-orange-500 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Volver al Hub
+                </button>
+                <span class="text-[10px] text-slate-600 border-l border-slate-700 pl-3" id="app-title-display">--</span>
+            </div>
+            <div class="flex gap-2">
+                <div class="w-2 h-2 rounded-full bg-orange-500/50"></div>
+                <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+            </div>
+        </div>
+        
+        <!-- El Iframe ocupa el resto -->
+        <iframe id="myIframe" src="" class="flex-grow border-none w-full h-full bg-white"></iframe>
+    </div>
+
+    <script>
+        // ==========================================
+        //  CONFIGURACIÓN: LISTA DE HERRAMIENTAS
+        // ==========================================
+        const herramientas = [
+            {
+                nombre: "Server Quick Commands",
+                url: "https://cocoeduardo.github.io/Server_Quick_comands/",
+                descripcion: "Genera comandos SSH y gestiona accesos a servidores Ubuntu.",
+                categoria: "SISTEMA"
+            },
+            {
+                nombre: "Gestion Horas",
+                url: "https://cocoeduardo.github.io/Gestion_Horas/",
+                descripcion: "Gestiona horas de trabajo y convierte disponibilidades semanales.",
+                categoria: "GESTIÓN"
+            },
+            {
+                nombre: "Creador Esquemas",
+                url: "https://cocoeduardo.github.io/Creador_esquemas/",
+                descripcion: "Genera esquemas a partir de JSON creado por IA y descarga en JPEG.",
+                categoria: "HERRAMIENTAS IA"
+            },
+            {
+                nombre: "PDF Reader Online",
+                url: "https://cocoeduardo.github.io/PDF_Reader_Online/",
+                descripcion: "Lector de PDF gratuito y rápido basado en código abierto.",
+                categoria: "UTILIDAD"
+            },
+            {
+                nombre: "PDF Notes",
+                url: "https://cocoeduardo.github.io/PDF_Notes/",
+                descripcion: "Toma notas y anota documentos PDF directamente en el navegador.",
+                categoria: "ESTUDIO"
+            },
+            {
+                nombre: "Amazon KDE Preview",
+                url: "https://cocoeduardo.github.io/Amazon_KDE_Preview/",
+                descripcion: "Vista previa de interfaz web y componentes UI.",
+                categoria: "DISEÑO"
+            },
+        ];
+
+        // ==========================================
+        //  LÓGICA DE RENDERIZADO
+        // ==========================================
+        const grid = document.getElementById('tools-grid');
+        const appView = document.getElementById('app-view');
+        const iframe = document.getElementById('myIframe');
+        const appTitleDisplay = document.getElementById('app-title-display');
+
+        herramientas.forEach((tool, index) => {
+            // Retraso escalonado para la animación de entrada
+            const delay = index * 100; 
+            
+            const card = document.createElement('div');
+            card.className = 'glass-panel rounded-xl p-6 flex flex-col justify-between shadow-glass transition-all duration-300 cursor-pointer hover:-translate-y-1';
+            card.style.animationDelay = `${delay}ms`;
+            // Al hacer clic, abrimos la app
+            card.onclick = () => openApp(tool);
+
+            card.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/20 text-orange-400 font-semibold tracking-wider uppercase">
+                            ${tool.categoria}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-600"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-200 mb-2 tracking-tight">${tool.nombre}</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-6 h-10 overflow-hidden">
+                        ${tool.descripcion}
+                    </p>
+                </div>
+                
+                <button class="w-full py-2.5 px-4 rounded-lg bg-neutral-950 border border-orange-500/30 hover:border-orange-500/70 hover:bg-orange-950/20 text-orange-400 font-bold text-[10px] uppercase tracking-widest transition-all duration-200 active:scale-[0.98]">
+                    Lanzar Aplicación
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openApp(tool) {
+            appTitleDisplay.innerText = tool.nombre;
+            iframe.src = tool.url;
+            appView.classList.remove('hidden');
+            appView.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
+        }
+
+        function closeApp() {
+            appView.classList.add('hidden');
+            appView.classList.remove('flex');
+            iframe.src = ''; // Limpiar para que no siga sonando/cargando
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>
